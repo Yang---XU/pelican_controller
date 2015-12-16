@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+    <node  pkg="joy" type="joy_node" name="joy" output="screen" >
+      <param name="autorepeat_rate" type="double" value="20"/>
+      <param name="deadzone" type="double" value="0.0" />
+      <param name="dev" type="string" value="/dev/input/js0"/>
+    </node>
+    
+      <node  pkg="pelican_controller" type="pelican_controller_node" name="controller" output="screen" >
+
+    </node>
+
+</launch>

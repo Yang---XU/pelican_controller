@@ -1,0 +1,13 @@
+<launch>
+
+    <node  pkg="joy" type="joy_node" name="joy" >
+      <param name="autorepeat_rate" type="double" value="20"/>
+      <param name="deadzone" type="double" value="0.0" />
+      <param name="dev" type="string" value="/dev/input/js2"/>
+    </node>
+    
+      <node  pkg="pelican_controller" type="pelican_controller_velocity" name="controller_vellocity" output="screen" >
+
+    </node>
+
+</launch>
