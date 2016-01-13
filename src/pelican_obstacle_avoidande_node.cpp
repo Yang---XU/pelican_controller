@@ -238,7 +238,7 @@ private:
 				else if(recent_z > 0.50){
 					v_tx = 0.0;
 					v_ty = 0.0;
-					v_tz = 0.1*cos(M_PI*recent_z)- 0.1;;
+					v_tz = 0.1*cos(M_PI*recent_z)- 0.1;
 					v_tyaw = 0.0;
 				}
 				else{

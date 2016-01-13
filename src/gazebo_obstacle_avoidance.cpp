@@ -87,7 +87,7 @@ public:
                          ROS_ERROR("The attitude commande is not put at 0. Please fix it."); 
                     }
                      else{
-						 take_off_mode = true;
+			take_off_mode = true;
                     }
                     }
                    //land 
@@ -114,13 +114,13 @@ public:
 		  	if(recent_z < 0.45){
 			  v_tx = 0.0;
 			  v_ty = 0.0;
-			  v_tz = 0.2;
+			  v_tz = 0.1*cos(M_PI*recent_z) + 0.1;
 			  v_tyaw = 0.0;
 		 	 }
 			else if(recent_z > 0.52){
 				v_tx = 0.0;
 				v_ty = 0.0;
-                v_tz = - 0.2;
+                		v_tz =  0.1*cos(M_PI*recent_z)- 0.1;
 				v_tyaw = 0.0;
             /*velocity.linear.x = 0.0;
 			  velocity.linear.y = 0.0;
@@ -140,18 +140,25 @@ public:
      if(took_off){
 		 if(land_mode){
                 std::cout << "current height: " << (double)recent_z << std::endl; 
-                if(fabs(recent_z - 0.084000) > 0.0005){
-					v_tx = 0.0;
-					v_ty = 0.0;
-					v_tz = -0.2;
-					v_tyaw = 0.0;                           
-                }
+		if(recent_z > 2.0 ){
+			v_tx = 0.0;
+			v_ty = 0.0;
+			v_tz = - 0.5;
+			v_tyaw = 0.0;
+		}
+		else if(fabs(recent_z - 0.084) > 0.0005){
+			v_tx = 0.0;
+			v_ty = 0.0;
+			v_tz = - 0.5*sin(M_PI*recent_z/(2*2.0));
+			v_tyaw = 0.0;
+		}               
+
                 else{
                     ROS_INFO("land finished");
                     v_tx = 0.0;
-					v_ty = 0.0;
-					v_tz = -0.03;
-					v_tyaw = 0.0; 
+		    v_ty = 0.0;
+		    v_tz = -0.03;
+		    v_tyaw = 0.0; 
                     took_off = false;
                     motors_on = false;
                     land_mode = false;
@@ -193,7 +200,7 @@ public:
       v_z = v_tz;
       v_yaw = v_tyaw;
 	  time_commande = ros::Time::now().toSec();
-	  velocity.linear.x = v_x;
+      velocity.linear.x = v_x;
       velocity.linear.y = v_y;
       velocity.linear.z = v_z;
       velocity.angular.z = v_yaw;

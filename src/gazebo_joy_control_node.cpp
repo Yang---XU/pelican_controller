@@ -93,13 +93,13 @@ public:
 		  	if(recent_z < 0.45){
 			  velocity.linear.x = 0.0;
 			  velocity.linear.y = 0.0;
-			  velocity.linear.z = 0.2;
+			  velocity.linear.z = 0.1*cos(M_PI*recent_z) + 0.1;
 			  velocity.angular.z = 0.0;
 		 	 }
 			else if(recent_z > 0.52){
 			  velocity.linear.x = 0.0;
 			  velocity.linear.y = 0.0;
-			  velocity.linear.z = -0.2;
+			  velocity.linear.z = 0.1*cos(M_PI*recent_z)- 0.1;;
 			  velocity.angular.z = 0.0;
 			}
 		  	else{
