@@ -87,7 +87,7 @@ private:
 
  	  	//unvalid message        
  	  	if(joyMsg->axes.size() == 0){
-                         ROS_INFO("debug0");
+			ROS_INFO("debug0");
 			nh.setParam("/fcu/position_control","off");
 			nh.setParam("/fcu/fcu/position_control","off");
  			ROS_INFO("invalid message!");
@@ -224,7 +224,7 @@ private:
 		if(motors_on){
 			//take off mode
 			if(take_off_mode and not took_off){
-                                 ROS_INFO("debug5");
+				ROS_INFO("debug5");
 				nh.setParam("/fcu/position_control","HighLevel");
 				nh.setParam("/fcu/fcu/position_control","HighLevel");
 				nh.setParam("/fcu/fcu/state_estimation", "HighLevel_SSDK");
@@ -253,21 +253,27 @@ private:
 			}
 			//manual mode
 			else if(took_off){
-                                ROS_INFO("debug6");
+				ROS_INFO("debug6");
 				if(land_mode){					
 					nh.setParam("/fcu/fcu/position_control","HighLevel");
 					nh.setParam("/fcu/fcu/state_estimation", "HighLevel_SSDK");
 					ctrl_msg_out.type = asctec_hl_comm::mav_ctrl::velocity;
-					if(fabs(recent_z - 0.05) > 0.0005){
+					if(recent_z > 2.0 ){
 						v_tx = 0.0;
 						v_ty = 0.0;
-						v_tz = - 0.2;
+						v_tz = - 0.5;
+						v_tyaw = 0.0;
+					}
+					else if(fabs(recent_z - 0.05) > 0.0005){
+						v_tx = 0.0;
+						v_ty = 0.0;
+						v_tz = - 0.5*sin(M_PI*recent_z/(2*2.0));
 						v_tyaw = 0.0;
 					}
 					else{
-                        			nh.setParam("/fcu/position_control","off");
+                        	nh.setParam("/fcu/position_control","off");
     						nh.setParam("/fcu/fcu/position_control","off");
-                                                ctrl_msg_out.type = asctec_hl_comm::mav_ctrl::acceleration;
+							ctrl_msg_out.type = asctec_hl_comm::mav_ctrl::acceleration;
 						asctec_hl_comm::mav_ctrl_motors::Request req;
 						asctec_hl_comm::mav_ctrl_motors::Response res;
 						req.startMotors = 0;
